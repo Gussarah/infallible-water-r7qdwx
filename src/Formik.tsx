@@ -36,10 +36,10 @@ const FormikForm = () => {
         }}
         onSubmit={apiPromise}
       >
-        {(props: FormikProps<any>) => (
+        {() => (
           <Form>
             <div>
-              <Field as="select" name="country">
+                <Field as="select" name="country">
                 <option value="" disabled selected>
                   Страна
                 </option>
@@ -49,14 +49,14 @@ const FormikForm = () => {
               <ErrorMessage name="country" />
             </div>
             <div>
-              <Field name="name" />
+                Имя <Field name="name" />
               <ErrorMessage name="name" />
             </div>
             <div>
               <Phone />
             </div>
             <div>
-              <Field name="email" />
+              Email <Field name="email" />
               <ErrorMessage name="email" />
             </div>
             <div>

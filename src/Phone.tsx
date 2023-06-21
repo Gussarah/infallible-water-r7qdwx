@@ -1,9 +1,6 @@
 import {
   Formik,
   Field,
-  Form,
-  FormikProps,
-  ErrorMessage,
   useFormikContext,
 } from "formik";
 import { useEffect } from "react";
@@ -13,21 +10,22 @@ import * as yup from "yup";
 const scheme = yup.object().shape({
   phone: yup.string().required(),
 });
-
-const AutoSubmit = (onSuccess: any) => {
+type Success = {
+  onSuccess: (value: string) => void
+}
+const AutoSubmit = ({onSuccess}: Success) => {
   const { values, submitForm }: any = useFormikContext();
   useEffect(() => {
     if (values.phone.length === 11) {
       submitForm();
-      onSuccess('phone', values.phone)
+      onSuccess(values.phone)
     }
   }, [values, submitForm]);
   return null;
 };
 
 const Phone = () => {
-  const as = useFormikContext();
-  console.log(as)
+  const {setFieldValue} = useFormikContext();
   return (
     <Formik
       validationSchema={scheme}
@@ -36,13 +34,11 @@ const Phone = () => {
       }}
       onSubmit={apiPromise}
     >
-      {(props: FormikProps<any>) => (
-        <Form>
+      {() => (
           <label>
-            <AutoSubmit onSuccess={()=>{}} />
-            <Field name="phone" /> Телефон
+            <AutoSubmit onSuccess={(value: string) => {setFieldValue('phone', value)}} />
+            Телефон <Field name="phone" />
           </label>
-        </Form>
       )}
     </Formik>
   );
